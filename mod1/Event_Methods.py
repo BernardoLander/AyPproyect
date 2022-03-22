@@ -1,6 +1,6 @@
 from Event_Classes import *
 
-def cargar_objetos(bd):
+def load_objects(bd):
     '''For loading objects (diferent types of events) from api or text file'''
 
     newdb = {
@@ -23,3 +23,28 @@ def cargar_objetos(bd):
                 newdb["Theater"].append(newTheater)
     
     return newdb
+
+
+
+def Event_visualizer(bd):
+    
+    for i in range(len(bd["Musical"])):
+
+        print (f''' Titulo: {bd["Musical"][i].title}
+                    Cantidad de Artistas: {bd["Musical"][i].bands}
+                    Artistas: {bd["Musical"][i].cartel}
+                    Precio para butaca General: {bd["Musical"][i].gen_price}
+                    Precio para butaca VIP: {bd["Musical"][i].vip_price}
+                    Fecha del evento: {bd["Musical"][i].date}''')
+
+    for i in range(len(bd["Theater"])):
+
+                print (f''' Titulo: {bd["Theater"][i].title}
+                    Synopsys: {bd["Theater"][i].bands}
+                    Artistas: {bd["Theater"][i].cartel}
+                    Precio para butaca General: {bd["Theater"][i].gen_price}
+                    Precio para butaca VIP: {bd["Theater"][i].vip_price}
+                    Fecha del evento: {bd["Theater"][i].date}''')
+
+    return
+    
