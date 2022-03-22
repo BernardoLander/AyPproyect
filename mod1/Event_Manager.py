@@ -1,9 +1,11 @@
-import imp
+from Event_Classes import *
 from utilsm1 import *
+from Event_Methods import *
 
 
 
 def Event_Manager():
+
     '''Event manager main'''
     option = num_verify(1,4,'''Bienvenido a la interfaz de Manejo de Eventos:
                         1. Para vizualizar los diferentes eventos disponibles presione.
@@ -11,7 +13,7 @@ def Event_Manager():
                         3. Para buscar eventos por filtro''')
 
     if option == 1:
-        pass
+      pass  
     #1.ver eventos
 
     elif option == 2:
