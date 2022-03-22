@@ -20,12 +20,19 @@ def num_verify(rangemin = 1, rangemax = 3, msg = ""):
 
 
 def verify_str(msg):
+
     '''String verification'''
+    
     text = input(msg)
+    
     if text.isalpha():
+    
         return text
+    
     else:
+    
         print("ERROR INVALID INPUT\n")
+    
         return verify_str(msg)
 
 
@@ -54,7 +61,9 @@ def verify_str_num(rangemax, msg):
 
 
 def yes_no (msg):
+
     '''Y/N input verifier'''
+
     op = input(msg)
 
     if op.capitalize() == "Y":
