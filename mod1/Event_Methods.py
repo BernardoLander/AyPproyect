@@ -1,4 +1,18 @@
+import json
+import requests
+from urllib import request
 from Event_Classes import *
+
+def url_database_get():
+    '''Getting from url from url'''
+
+    url = 'https://raw.githubusercontent.com/Algoritmos-y-Programacion/api_saman_show/main/api.json'
+    response = requests.request('GET', url)
+    json_db = response.json()
+
+    return json_db
+
+
 
 def load_objects(bd):
     '''For loading objects (diferent types of events) from api or text file'''
@@ -8,7 +22,7 @@ def load_objects(bd):
         "Theater":[]
     }
 
-    for i in range(len(bd)):
+    for i in range(len(bd["events"])):
 
         for key, value in bd[i].items():
 
