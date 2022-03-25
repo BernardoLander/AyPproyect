@@ -10,6 +10,7 @@ class Event():
         self.gen_price = gen_price
         self.vip_price = vip_price
         self.date = date
+        self.is_selling = True
 
 
 
