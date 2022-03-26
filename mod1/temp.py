@@ -1,40 +1,35 @@
-from multiprocessing import Value
 import requests
 import json
 from Event_Classes import *
-
+from Event_Methods import *
+from utilsm1 import *
 
 def main():
 
-    url = 'https://raw.githubusercontent.com/Algoritmos-y-Programacion/api_saman_show/main/api.json'
-    response = requests.request('GET', url)
-    json_db = response.json()
+    bd = url_database_get_and_load()
+    print_list_cute
+    print("Eventos Musicales:\n")
 
-    bd = json_db["events"]
+    for i in range(len(bd["Musical"])):
 
-    newdb = {
-        "Musical":[],
-        "Theater":[]
-    }
+        print (f''' Evento numero: {i + 1}
+                    Titulo: {bd["Musical"][i].title}
+                    Cantidad de Artistas: {print_list_cute(bd["Musical"][i].bands)}
+                    Artistas: {bd["Musical"][i].cartel}
+                    Precio para butaca General: {bd["Musical"][i].gen_price}$
+                    Precio para butaca VIP: {bd["Musical"][i].vip_price}$
+                    Fecha del evento: {bd["Musical"][i].date}''')
 
-    for i in range(len(bd)):
+    print("Eventos de Teatro:\n")
 
-        for key, Value in bd[i].items():
+    for i in range(len(bd["Theater"])):
 
-            if bd[i]["type"] == 1:
-
-                newMusical = Musical(bd[i]["title"], bd[i]["type"], bd[i]["cartel"],bd[i]["layout"], bd[i]["prices"][0], bd[i]["prices"][1], bd[i]["date"], bd[i]["bands"])
-                newdb["Musical"].append(newMusical)
-
-            elif bd[i]["type"] == 2:
-
-                newTheater = Theater(bd[i]["title"], bd[i]["type"], bd[i]["cartel"],bd[i]["layout"], bd[i]["prices"][0], bd[i]["prices"][1], bd[i]["date"], bd[i]["synopsis"])
-                newdb["Theater"].append(newTheater)
-    print (bd)
-    print ('\n\n------------------------------------------------------------------')
-    print (newdb) 
-
-    print (newdb["Musical"][0].vip_price)
-
+                print (f''' Evento numero: {i}
+                            Titulo: {bd["Theater"][i].title}
+                            Sinopsys: {bd["Theater"][i].synopsys}
+                            Artistas: {print_list_cute(bd["Theater"][i].cartel)}
+                            Precio para butaca General: {bd["Theater"][i].gen_price}$
+                            Precio para butaca VIP: {bd["Theater"][i].vip_price}$
+                            Fecha del evento: {bd["Theater"][i].date}''')
 
 main()
