@@ -74,13 +74,18 @@ def yes_no (msg):
         print("ERROR INVALID INPUT\n")
         return yes_no(msg)
 
-def print_list_cute(list):
-    '''Prints lists in a cute way'''
 
-    if len(list) > 1:
-        for i in range(len(list)):
-            print(list[i],end='')
-        return
-    else:
-        print(list[0],end='')
-        return
+
+def get_list_cute(list):
+    '''arrange lists in a cute way'''
+    out = ""
+
+    for i in range(len(list)):
+
+        if i == len(list) - 1:
+            out = out + list[i]
+
+        else:    
+            out = out + list[i] + " / "
+    
+    return out
