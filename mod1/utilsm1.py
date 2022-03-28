@@ -1,7 +1,7 @@
-from cgitb import text
 
 
-def num_verify(rangemin = 1, rangemax = 3, msg = ""):
+
+def num_verify_range(rangemin = 1, rangemax = 3, msg = ""):
 
     '''Number Verification'''
 
@@ -14,13 +14,28 @@ def num_verify(rangemin = 1, rangemax = 3, msg = ""):
                 return int(num)
             else:
                 print("ERROR INVALID NUMBER\n")
-                return num_verify(rangemin, rangemax , msg)
+                return num_verify_range(rangemin, rangemax , msg)
         else:
             print("ERROR INVALID NUMBER\n")
-            return num_verify(rangemin, rangemax, msg)
+            return num_verify_range(rangemin, rangemax, msg)
     else:
         print ("ERROR INVALID INPU\nT")
-        return num_verify(rangemin, rangemax, msg)
+        return num_verify_range(rangemin, rangemax, msg)
+
+
+
+def num_verify (msg):
+
+    pretty = "\n ==>"
+    num = input(msg + pretty)
+
+    if num.isnumeric():
+        
+        return int(num)
+
+    else:
+        print ("ERROR INVALID INPU\nT")
+        return num_verify(msg)
 
 
 
@@ -31,7 +46,7 @@ def verify_str(msg):
     pretty = "\n ==>"
     text = input(msg + pretty)
     
-    if text.isalpha():
+    if text.replace(" ","").isalpha():
     
         return text
     
