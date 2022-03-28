@@ -12,21 +12,18 @@ def url_database_get_and_load_Events():
 
     bd = json_db["events"]
 
-    newdb = {
-        "Musical":[],
-        "Theater":[]
-    }
+    newdb = []
 
     for i in range(len(bd)):
         if bd[i]["type"] == 1:
 
             newMusical = Musical(bd[i]["title"], bd[i]["type"], bd[i]["cartel"],bd[i]["layout"], bd[i]["prices"][0], bd[i]["prices"][1], bd[i]["date"], bd[i]["bands"])
-            newdb["Musical"].append(newMusical)
+            newdb.append(newMusical)
 
         elif bd[i]["type"] == 2:
 
             newTheater = Theater(bd[i]["title"], bd[i]["type"], bd[i]["cartel"],bd[i]["layout"], bd[i]["prices"][0], bd[i]["prices"][1], bd[i]["date"], bd[i]["synopsis"])
-            newdb["Theater"].append(newTheater)
+            newdb.append(newTheater)
     
     return newdb
 
@@ -35,73 +32,142 @@ def url_database_get_and_load_Events():
 def event_visualizer(bd):
 
     '''Visualizer of database in formatted strings'''
+    for i in range(len(bd)):
+        if bd[i].type == 1:
+            print (f'''Evento de Tipo Musical
+Evento numero: {i + 1}
+Titulo: {bd[i].title}
+Cantidad de Artistas: {bd[i].bands}
+Artistas: {get_list_cute(bd[i].cartel)}
+Precio para butaca General: {bd[i].gen_price}
+Precio para butaca VIP: {bd[i].vip_price}
+Fecha del evento: {bd[i].date}''')
+            if bd[i].is_selling:
+                print("La venta de tickets de este evento esta abierta\n")
+            else:
+                print("La venta de tickets de este evento esta cerrada\n")
 
-    print("EVENTOS DE MUSICA:\n")
+        elif bd[i].type == 2:
+            print (f'''Evento de Tipo Teatro
+Evento numero: {i + 1}
+Titulo: {bd["Theater"][i].title}
+Synopsys: {bd["Theater"][i].synopsys}
+Artistas: {get_list_cute(bd["Theater"][i].cartel)}
+Precio para butaca General: {bd["Theater"][i].gen_price}
+Precio para butaca VIP: {bd["Theater"][i].vip_price}
+Fecha del evento: {bd["Theater"][i].date}''')
 
-    for i in range(len(bd["Musical"])):
-
-        print (f''' Evento numero: {i + 1}
-                    Titulo: {bd["Musical"][i].title}
-                    Cantidad de Artistas: {bd["Musical"][i].bands}
-                    Artistas: {get_list_cute(bd["Musical"][i].cartel)}
-                    Precio para butaca General: {bd["Musical"][i].gen_price}
-                    Precio para butaca VIP: {bd["Musical"][i].vip_price}
-                    Fecha del evento: {bd["Musical"][i].date}''')
-        if bd["Musical"][i].is_selling:
-            print("La venta de tickets de este evento esta abierta\n")
-        else:
-            print("La venta de tickets de este evento esta cerrada\n")
-    
-    print("EVENTOS DE TEATRO:\n")
-
-    for i in range(len(bd["Theater"])):
-
-        print (f''' Evento numero: {i + 1}
-                    Titulo: {bd["Theater"][i].title}
-                    Synopsys: {bd["Theater"][i].synopsys}
-                    Artistas: {get_list_cute(bd["Theater"][i].cartel)}
-                    Precio para butaca General: {bd["Theater"][i].gen_price}
-                    Precio para butaca VIP: {bd["Theater"][i].vip_price}
-                    Fecha del evento: {bd["Theater"][i].date}''')
-
-        if bd["Theater"][i].is_selling:
-            print("La venta de tickets de este evento esta abierta\n")
-        else:
-            print("La venta de tickets de este evento esta cerrada\n")
+            if bd[i].is_selling:
+                print("La venta de tickets de este evento esta abierta\n")
+            else:
+                print("La venta de tickets de este evento esta cerrada\n")
 
     return
     
 
 def event_openclose(db):
 
-    op = num_verify(1,2,'''Presione:
-    1. Para trabajar en eventos Musicales
-    2. Para trabajar en eventos teatrales
+    
+        event_op = num_verify(1,len(db),'''Indique por favor el numero del evento musical el cual quiere seleccionar''')
+
+        if db[event_op-1].is_selling:
+            db[event_op-1].is_selling = False
+            print(f'''Cerrada la venta de tickets para el evento numero {event_op} 
+                    titulo:{db[event_op].title}''')
+         
+        else:
+            db[event_op-1].is_selling = True
+            print(f'''Abierta la venta de tickets para el evento numero {event_op} 
+                    titulo:{db[event_op].title}''')
+
+
+
+def event_search(db):
+    '''Shows events by attributes'''
+
+    op = num_verify(1,4,'''Indique que atributo de los eventos quiere usar para buscarlo:
+    1. Para buscar por tipo
+    2. Para buscar por Fecha
+    3. Para buscar por Actor o Cantante en el Cartel
+    4. Para buscar por el nombre del evento
     ''')
 
     if op == 1:
-        event_op = num_verify(1,len(db["Musical"]),'''Indique por favor el numero del evento musical el cual quiere seleccionar''')
+        #Por type
+        print ("Organizaodo por tipo")
+        auxdb = []
+        for i in range(len(db)):
+            auxdb.append(db[i].type)
 
-        if db["Musical"][event_op-1].is_selling:
-            db["Musical"][event_op-1].is_selling = False
-            print(f'''Cerrada la venta de tickets para el evento numero {event_op} 
-                    titulo:{db["Musical"][event_op].title}''')
-         
-        else:
-            db["Musical"][event_op-1].is_selling = True
-            print(f'''Abierta la venta de tickets para el evento numero {event_op} 
-                    titulo:{db["Musical"][event_op].title}''')
+        auxdb = sorted(auxdb)
 
-    else:
+        for i in range(len(db)):
         
-        event_op = num_verify(1,len(db["Theater"]),'''Indique por favor el numero del evento musical el cual quiere seleccionar''')
+            for j in range(len(db)):
 
-        if db["Theater"][event_op-1].is_selling:
-            db["Theater"][event_op-1].is_selling = False
-            print(f'''Cerrada la venta de tickets para el evento numero {event_op} 
-                    titulo:{db["Theater"][event_op].title}''')
-         
-        else:
-            db["Theater"][event_op-1].is_selling = True
-            print(f'''Abierta la venta de tickets para el evento numero {event_op} 
-                    titulo:{db["Theater"][event_op].title}''')
+                if db[j].type == auxdb[i]:
+
+                    db[j], db[i] = db[i], db[j]
+
+        event_visualizer(db)
+
+        boolop =  yes_no('''Desea modificar la venta de tickets de algun evento?
+            Y/N''')
+        if boolop:
+            event_openclose(db)
+
+    elif op == 2:
+      #Por Fecha
+        print("Organizado por fecha")
+        auxdb = []
+        for i in range(len(db)):
+                auxdb.append(db[i].date.replace("-",""))
+        
+        auxdb = sorted(auxdb)
+       
+        for i in range(len(db)):
+            for j in range(len(db)):
+
+                if db[j].date.replace("-","") == auxdb[i]:
+                    db[j], db[i] = db[i], db[j]
+        
+        event_visualizer(db)
+
+        boolop =  yes_no('''Desea modificar la venta de tickets de algun evento?
+        Y/N''')
+
+        if boolop:
+            event_openclose(db)
+    
+    elif op == 3:
+        #Por actor o Cartel
+        pass
+    else:
+        #Por titulo
+        print("Organizado por Titulo")
+        
+        auxdb = []
+
+        for i in range(len(db)):
+
+            auxdb.append(db[i].title.replace(" ",""))
+
+
+        auxdb = sorted(auxdb)
+
+        for i in range(len(db)):
+                
+            for j in range(len(db)):
+
+                if db[j].title.replace(" ","") == auxdb[i]:
+                    db[j], db[i] = db[i], db[j]
+
+        event_visualizer(db)
+
+        boolop =  yes_no('''Desea modificar la venta de tickets de algun evento?
+        Y/N''')
+
+        if boolop:
+            event_openclose(db)
+    
+    return db

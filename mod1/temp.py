@@ -1,14 +1,24 @@
-from Event_Classes import Event, Musical, Theater
 from Event_Methods import *
-from mod1.Event_Methods import url_database_get_and_load_Events
-from utilsm1 import get_list_cute
-import json
-import requests
+import pickle
+import os
 
-def main():
+db = url_database_get_and_load_Events()
+auxdb = []
+each_cartel = []
 
-    db = url_database_get_and_load_Events()
-    event_visualizer(db)
+for i in range(len(db)):
+
+    cartel = db[i].cartel
+    each_cartel = [each_cartel]
+
+    for j in range(len(db[i].cartel)):
+        print(each_cartel)
+        each_cartel.append(cartel[j].replace(" ",""))
+    sorted(each_cartel)
+    auxdb.append(each_cartel)
 
 
-main()
+auxdb = sorted(auxdb)
+print(auxdb)
+
+

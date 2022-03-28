@@ -3,12 +3,14 @@ import os
 
 
 def recibir_datos_del_txt(nombre_txt,datos):
-    
+    '''Recibe datos del txt y si esta vacio regresa none'''
     lectura_binaria= open(nombre_txt,'rb')
     
     if os.stat(nombre_txt).st_size != 0:
         datos=pickle.load(lectura_binaria)
-
+    else:
+        datos = None
+        
     lectura_binaria.close()
 
     return datos

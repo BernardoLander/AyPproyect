@@ -1,8 +1,12 @@
+from cgitb import text
+
+
 def num_verify(rangemin = 1, rangemax = 3, msg = ""):
 
     '''Number Verification'''
 
-    num = input(msg)
+    pretty = "\n ==>"
+    num = input(msg + pretty)
 
     if num.isnumeric():
         if int(num) <= rangemax:
@@ -19,11 +23,13 @@ def num_verify(rangemin = 1, rangemax = 3, msg = ""):
         return num_verify(rangemin, rangemax, msg)
 
 
+
 def verify_str(msg):
 
     '''String verification'''
     
-    text = input(msg)
+    pretty = "\n ==>"
+    text = input(msg + pretty)
     
     if text.isalpha():
     
@@ -36,9 +42,13 @@ def verify_str(msg):
         return verify_str(msg)
 
 
+
 def verify_str_num(rangemax, msg):
     '''Verifier for alphanumeric string'''
-    text = input(msg)
+
+    pretty = "\n ==>"
+    text = input(msg + pretty)
+
     if text.isalnum():
 
         if rangemax != 0:
@@ -63,8 +73,8 @@ def verify_str_num(rangemax, msg):
 def yes_no (msg):
 
     '''Y/N input verifier'''
-
-    op = input(msg)
+    pretty = "\n ==>"
+    op = input(msg + pretty)
 
     if op.capitalize() == "Y":
         return True
@@ -89,3 +99,14 @@ def get_list_cute(list):
             out = out + list[i] + " / "
     
     return out
+
+
+def selection_sort (vector):
+    n = len(vector)
+    for i in range(n):
+        min_idx = i
+        for j in range(i+1, n):
+            if vector[min_idx]>vector[j]:
+                min_idx = j
+        vector[i], vector[min_idx] = vector[min_idx], vector[i]
+    print(vector)
