@@ -11,6 +11,9 @@ class Event():
         self.vip_price = vip_price
         self.date = date
         self.is_selling = True
+        self.layoutgen = []
+        self.layoutvip = []
+
 
 
 

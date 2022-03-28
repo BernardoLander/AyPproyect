@@ -68,7 +68,7 @@ def verify_str_num(rangemax, msg):
 
         if rangemax != 0:
             if len(text) == rangemax:
-                return text
+                return text.capitalize()
             
             else:
 

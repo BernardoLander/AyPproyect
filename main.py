@@ -2,12 +2,20 @@ from mod1.Event_Methods import *
 from mod1.Event_Classes import *
 from mod1.utilsm1 import *
 from mod1.cargaydescarga import *
+from mod2.Ticket_Methods import *
+
+
+
 
 def main():
 
-    eventdb = recibir_datos_del_txt("Eventdb.txt",eventdb)
-    if eventdb is None:
-        eventdb = url_database_get_and_load_Events()
+    event_db = recibir_datos_del_txt("Eventdb.txt",event_db)
+    if event_db is None:
+        event_db = url_database_get_and_load_Events()
+    
+    client_db = recibir_datos_del_txt("Clientdb.txt", client_db)
+    if client_db is None:
+        client_db = []
 
     print("BIENVENIDO AL PROGRAMA DE GESTION DEL SAMAN SHOW")
 
@@ -21,7 +29,15 @@ def main():
 
     if op == 1:
         #Event Manager
-        eventdb = event_search(eventdb)
+        event_db = event_search(event_db)
     elif op == 2:
+        #Event Client Creation and buy
+        eventop = client_create(client_db, event_db)
+        ticket_buy(client_db, event_db, eventop)
+        make_bill(client_db)
+    
+    elif op == 3:
+        #Food Fair Manager
         pass
+
 main()

@@ -5,5 +5,7 @@ class Client():
         self.age = age
         self.event = event
         self.tickets = 0
-
+        self.spots = []
+        self.vip = False
+        self.payed = 0
         
