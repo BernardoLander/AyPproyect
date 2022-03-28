@@ -141,11 +141,13 @@ def event_search(db):
     
     elif op == 3:
         #Por actor o Cartel
+        #broken
+        print("Seccion en mantenimiento")
         pass
     else:
         #Por titulo
         print("Organizado por Titulo")
-        
+
         auxdb = []
 
         for i in range(len(db)):
