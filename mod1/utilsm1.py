@@ -88,7 +88,7 @@ def verify_str_num(rangemax, msg):
 def yes_no (msg):
 
     '''Y/N input verifier'''
-    pretty = "\n ==>"
+    pretty = "\n Y/N ==>"
     op = input(msg + pretty)
 
     if op.capitalize() == "Y":
