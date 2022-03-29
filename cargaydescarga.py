@@ -27,11 +27,3 @@ def cargar_datos_en_txt(nombre_txt,datos):
 
 
 
-class persona():
-    def __init__(self, name):
-        self.name = name
-
-
-class negro(persona):
-    def __init__(self, name):
-        super().__init__(name)
