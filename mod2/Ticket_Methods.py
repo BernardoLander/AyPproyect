@@ -187,5 +187,6 @@ def make_bill(client_db):
         customer.payed = total
 
 
-    
+def acces_client(event_db,client_db):
+    pass
 
