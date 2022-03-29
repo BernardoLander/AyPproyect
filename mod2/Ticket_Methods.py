@@ -160,17 +160,20 @@ def make_bill(client_db):
     PUESTOS:{get_list_cute(customer.spots)}''')
 
     if customer.vip:
+
         total = customer.event.vip_price * len(customer.spots) + customer.event.vip_price * len(customer.spots)*0.16
         print(f'''PRECIO POR PUESTO VIP: {customer.event.vip_price}
         PRECIO CON IVA DE ENTRADA: {customer.event.vip_price + customer.event.vip_price*0.16}
         PRECIO TOTAL A PAGAR: {total}
         ''')
+
         if customer.discount:
             total = customer.event.vip_price * len(customer.spots) - customer.event.vip_price * len(customer.spots)*0.50 + customer.event.vip_price * len(customer.spots)*0.16
             print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
         customer.payed = total
     
     else:
+
         total = customer.event.gen_price * len(customer.spots) + customer.event.gen_price * len(customer.spots)*0.16 
         print(f'''PRECIO POR PUESTO GENERAL: {customer.event.gen_price}
         PRECIO CON IVA DE ENTRADA: {customer.event.gen_price + customer.event.gen_price*0.16}
@@ -180,7 +183,7 @@ def make_bill(client_db):
         if customer.discount:
             total = customer.event.gen_price * len(customer.spots) - customer.event.gen_price * len(customer.spots)*0.50 + customer.event.gen_price * len(customer.spots)*0.16
             print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
-            
+
         customer.payed = total
 
 

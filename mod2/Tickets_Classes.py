@@ -7,5 +7,6 @@ class Client():
         self.tickets = 0
         self.spots = []
         self.vip = False
+        self.discount = False
         self.payed = 0
         
