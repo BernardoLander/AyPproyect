@@ -1,4 +1,4 @@
-class alimento():
+class food():
     def __init__(self, name, price, amount, presentation, type):
         self.name = name
         self.price = price
