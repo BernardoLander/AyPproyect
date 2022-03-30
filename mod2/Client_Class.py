@@ -8,5 +8,7 @@ class Client():
         self.spots = []
         self.vip = False
         self.discount = False
+        self.discountfood = False
         self.payed = 0
+        self.payedfood = 0
         self.food = []

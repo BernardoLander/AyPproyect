@@ -3,6 +3,7 @@ from mod1.utilsm1 import num_verify, num_verify_range, yes_no, verify_str_num
 from cargaydescarga import *
 from mod2.Ticket_Methods import client_create, client_search_in_db, make_bill_event, ticket_buy, event_select
 from mod3.FoodFair_Methods import *
+from mod4.FoodSell_Methods import *
 
 
 
@@ -60,6 +61,7 @@ def main():
         product_search_manager(food_db)
 
         cargar_datos_en_txt("FoodFair.txt", food_db)
+        
     
     elif op == 4:
         #Food fair buy/ client create
@@ -68,10 +70,12 @@ def main():
         else:
             client_create(client_db)
             client_index = -1
-        
+
+        product_search_client(food_db, client_db, client_index)
+        make_bill_food(client_db, client_index)
 
     else:
-        #Stadistics
+        #Statistics
         pass
 
 main()

@@ -1,4 +1,3 @@
-from xxlimited import foo
 from mod3.FoodFair_Methods import food_fair_vizualizer, get_price_limits
 from mod3.utilsm3 import *
 
@@ -49,3 +48,32 @@ def product_search_client(food_db, client_db, client_index):
 
             return
 
+def make_bill_food(client_db, client_index = -1):
+    '''Makes bill from client obj'''
+    total = 0
+    customer = client_db[client_index]
+    print(f''' FACTURA
+    
+    NOMBRE: {customer.name}
+    CEDULA: {customer.dni}
+    EDAD: {customer.age}
+    ARTICULOS DE COMIDA:
+    ''')
+
+    for i in range(len(customer.food)):
+        
+        print(f'''
+        {customer.food[i].name}
+        COSTO SIN IVA: {customer.food[i].price}
+        COSTO CON IVA: {customer.food[i].price + customer.food[i].price * 0.16}
+        ''')
+        total = total + customer.food[i].price + customer.food[i].price * 0.16
+
+    print(f'''TOTAL A PAGAR: {total}''')
+
+    if customer.discountfood:
+        total = total - total * 0.15
+        print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
+        customer.payedfood = total
+    
+    return
