@@ -9,4 +9,4 @@ class Client():
         self.vip = False
         self.discount = False
         self.payed = 0
-        
+        self.food = []

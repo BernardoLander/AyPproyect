@@ -56,12 +56,18 @@ def main():
     elif op == 3:
         #Food Fair Manager
         food_fair_vizualizer(food_db)
-        
+
         product_search_manager(food_db)
     
     elif op == 4:
         #Food fair buy/ client create
-        pass
+        if yes_no("Ya tiene un Usuario creado en la Base de Datos?"):
+            client_index = client_search_in_db(client_db)
+        else:
+            client_create(client_db)
+            client_index = -1
+        
+        
     else:
         #Stadistics
         pass
