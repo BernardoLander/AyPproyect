@@ -1,4 +1,4 @@
-from Tickets_Classes import Client
+from Client_Class import Client
 from mod1.utilsm1 import get_list_cute, num_verify, num_verify_range, verify_str, verify_str_num, yes_no
 from mod1.Event_Methods import event_visualizer
 from string import ascii_uppercase
@@ -163,8 +163,9 @@ def reserve_spot (spot, event, op):
 
             
             
-def make_bill(client_db, client_index = -1):
+def make_bill_event(client_db, client_index = -1):
     '''Makes bill from client obj'''
+    
     customer = client_db[client_index]
     print(f''' FACTURA
     
