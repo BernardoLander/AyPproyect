@@ -57,7 +57,7 @@ def product_search_client(food_db, client_db, client_index):
 
 
 def make_bill_food(client_db, client_index = -1):
-    '''Makes bill from client obj'''
+    '''Makes bill from client obj for food'''
     total = 0
     subtotal = 0
     totaldescuento = "NO APLICA"

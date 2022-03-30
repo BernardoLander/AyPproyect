@@ -149,7 +149,7 @@ def reserve_spot (spot, event, op):
         aux = 0
         for i in range(len(event.layoutgen)):
             if event.layoutgen[i] == spot:
-                event.layoutgen[i] = "OCC"
+                event.layoutgen[i] = "X"
                 aux += 1
         
         if aux == 1:
@@ -164,43 +164,59 @@ def reserve_spot (spot, event, op):
             
             
 def make_bill_event(client_db, client_index = -1):
-    '''Makes bill from client obj'''
-    
+    '''Makes bill from client obj for events'''
+
+    total = 0
+    subtotal = 0
+    totaldescuento = "NO APLICA"
+
     customer = client_db[client_index]
-    print(f''' FACTURA
-    
+    print(f'''
     NOMBRE: {customer.name}
     CEDULA: {customer.dni}
     EDAD: {customer.age}
     EVENTO: {customer.event.title}
-    PUESTOS:{get_list_cute(customer.spots)}''')
+    PUESTOS:{get_list_cute(customer.spots)}
+    ''')
 
     if customer.vip:
 
         total = customer.event.vip_price * len(customer.spots) + customer.event.vip_price * len(customer.spots)*0.16
+
         print(f'''PRECIO POR PUESTO VIP: {customer.event.vip_price}
         PRECIO CON IVA DE ENTRADA: {customer.event.vip_price + customer.event.vip_price*0.16}
-        PRECIO TOTAL A PAGAR: {total}
+        PRECIO TOTAL A PAGAR(INCLUIDO CANT DE PUESTOS): {total}
         ''')
 
+        subtotal = total
+
         if customer.discount:
-            total = customer.event.vip_price * len(customer.spots) - customer.event.vip_price * len(customer.spots)*0.50 + customer.event.vip_price * len(customer.spots)*0.16
-            print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
-        customer.payed = total
+            totaldescuento = total - total * 0.5
+            print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {totaldescuento}''')
     
     else:
 
         total = customer.event.gen_price * len(customer.spots) + customer.event.gen_price * len(customer.spots)*0.16 
         print(f'''PRECIO POR PUESTO GENERAL: {customer.event.gen_price}
         PRECIO CON IVA DE ENTRADA: {customer.event.gen_price + customer.event.gen_price*0.16}
-        PRECIO TOTAL A PAGAR: {customer.event.gen_price * len(customer.spots) + customer.event.gen_price * len(customer.spots)*0.16}
+        PRECIO TOTAL A PAGAR(INCLUIDO CANT DE PUESTOS): {total}
         ''')
+        subtotal = total
 
         if customer.discount:
-            total = customer.event.gen_price * len(customer.spots) - customer.event.gen_price * len(customer.spots)*0.50 + customer.event.gen_price * len(customer.spots)*0.16
-            print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
+            totaldescuento = total - total * 0.5
+            print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {totaldescuento}''')
+            total = totaldescuento
 
+    if yes_no("Desea realizar el pago?"):
+        print(f''' *** PAGO REALIZADO EXITOSAMENTE ***
+        SUBTOTAL: {subtotal}
+        DESCUENTO: {totaldescuento}
+        TOTAL: {total}
+        ''')
         customer.payed = total
+    
+    return
 
 
 def client_search_in_db(client_db):
