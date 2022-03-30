@@ -1,9 +1,9 @@
 class Client():
-    def __init__(self, name, dni, age, event) -> None:
+    def __init__(self, name, dni, age,) -> None:
         self.name = name
         self.dni = dni
         self.age = age
-        self.event = event
+        self.event = None
         self.tickets = 0
         self.spots = []
         self.vip = False

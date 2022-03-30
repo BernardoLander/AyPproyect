@@ -13,6 +13,8 @@ class Event():
         self.is_selling = True
         self.layoutgen = []
         self.layoutvip = []
+        self.vipqty = layout["vip"][0] * layout["vip"][1]
+        self.genqty = layout["general"][0] * layout["general"][1]
 
 
 

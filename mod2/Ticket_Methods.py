@@ -4,30 +4,37 @@ from mod1.Event_Methods import event_visualizer
 from string import ascii_uppercase
 
 
-def client_create(client_db, event_db):
-    '''Create client and sends to buy tickets'''
+def client_create(client_db):
+    '''Create client'''
     print("Por favor llene sus datos de manera acorde")
 
     name = verify_str("Ingrese su nombre")
     dni = num_verify("Ingrese su cedula")
     age = num_verify_range(1,120,"Ingrese su edad")
-    while True:
-        event_visualizer(event_db)
-        eventop = num_verify_range(1,len(event_db), "Ingrese el Numero del evento donde desea realizar una compra")
-        eventop = eventop - 1
-        if event_db[eventop].is_selling:
+    client_db.append(Client(name, dni, age))
+    return
 
-            event = event_db[eventop]
-            client_db.append(Client(name, dni, age, event))
-            return eventop
 
-        else:
-            print("El evento no esta aceptando compras Intente comprar en otro evento")
+def event_select(event_db, client_db, client_index = -1):
+    '''With index in clientdb client selects event'''
+
+    event_visualizer(event_db)
+    eventop = num_verify_range(1,len(event_db), "Ingrese el Numero del evento donde desea realizar una compra")
+    eventop = eventop - 1
+    if event_db[eventop].is_selling:
+
+        client_db[client_index].event = event_db[eventop]
+            
+        return eventop
+
+    else:
+        print("El evento no esta aceptando compras Intente comprar en otro evento")
+        return event_select(client_db, event_db, client_index)
         
 
 
 
-def ticket_buy(client_db, event_db, eventop):
+def ticket_buy(client_db, event_db, eventop, client_index):
     '''Select spot type and show spots to buy tickets'''
 
 
@@ -40,34 +47,39 @@ def ticket_buy(client_db, event_db, eventop):
 
     if op == 1:
 
-        tickets = num_verify_range( 1, event_db[eventop].layout["vip"],"Ingrese la cantidad de Tickets que desea comprar")
-        layout_show(event_db, eventop,1)
+        tickets = num_verify_range( 1, event_db[eventop].vipqty,"Ingrese la cantidad de Tickets que desea comprar")
+
+        layout_show(event_db, eventop, 1)
 
         for i in range(tickets):
 
             spot = verify_str_num(2,"Por favor ingrese el Codigo Alfanumerico de la butaca que desea comprar")
 
             reserve_spot(spot, event_db[eventop], 1)
-            client_db[-1].spots.append(spot + "VIP")
+            event_db[eventop].vipqty = event_db[eventop].vipqty - 1
+            client_db[client_index].spots.append(spot + "VIP")
 
             print("Proximo ticket")
 
-        client_db[-1].vip = True
+        client_db[client_index].vip = True
 
             
     else:
 
-        tickets = num_verify_range( 1, event_db[eventop].layout["general"],"Ingrese la cantidad de Tickets que desea comprar")
+        tickets = num_verify_range( 1, event_db[eventop].genqty,"Ingrese la cantidad de Tickets que desea comprar")
 
-        layout_show(event_db, eventop,2)
+        layout_show(event_db, eventop, 2)
 
         for i in range(tickets):
 
             spot = verify_str_num(2,"Por favor ingrese el Codigo Alfanumerico de la butaca que desea comprar")
 
             reserve_spot(spot, event_db[eventop], 2)
-            client_db[-1].spots.append(spot)
+            client_db[client_index].spots.append(spot)
+            event_db[eventop].genqty = event_db[eventop].genqty - 1
             print("Proximo ticket")
+    
+    return
             
 
 
@@ -117,8 +129,11 @@ def reserve_spot (spot, event, op):
     if op == 1:
         aux = 0
         for i in range(len(event.layoutvip)):
+
             if event.layoutvip[i] == spot:
-                event.layoutvip[i] = "OCC"
+
+                event.layoutvip[i] = "X"
+
                 aux += 1
         
         if aux == 1:
@@ -148,9 +163,9 @@ def reserve_spot (spot, event, op):
 
             
             
-def make_bill(client_db):
+def make_bill(client_db, client_index = -1):
     '''Makes bill from client obj'''
-    customer = client_db[-1]
+    customer = client_db[client_index]
     print(f''' FACTURA
     
     NOMBRE: {customer.name}
@@ -187,6 +202,12 @@ def make_bill(client_db):
         customer.payed = total
 
 
-def acces_client(event_db,client_db):
-    pass
+def client_search_in_db(client_db):
+
+    client_dni = num_verify("Ingrese su Cedula:")
+    for i in range(len(client_db)):
+        if client_dni == client_db[i].dni:
+            return i
+    print("Su cedula no esta en la base de datos por favor cree un perfil")
+    return
 

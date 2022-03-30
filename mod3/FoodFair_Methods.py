@@ -1,7 +1,6 @@
 import requests
 import json
 from FoodFair_Classes import *
-from mod1.utilsm1 import *
 from utilsm3 import *
 
 
@@ -118,22 +117,46 @@ def product_search_manager(db):
             if db[i].type == productop:
             
                product_showdb.append(db[i])
-               food_fair_vizualizer(product_showdb)
+      food_fair_vizualizer(product_showdb)
+      
    else:
       #By price range
       
+
+      maxprice , minprice = get_price_limits(db)
+
+      user_minprice = num_verify_range(minprice, maxprice, "Indique el precio minimo del rango")
+      user_maxprice = num_verify_range(user_minprice, maxprice, "Indique el precio maximo del rango deseado")
+
       for i in range(len(db)):
-         cont = 0
-         for j in range(len(db)):
-            if db[i].price > db[j].price:
-               cont += 1
-            elif db[i].price < db[j].price:
-               cont -= 1
-            if cont + 1 == len(db):
-               maxprice = db[i].price
-            
 
-      productoprangemin = num_verify_range
+         if db[i].price > user_minprice and db[i].price < user_maxprice:
+               product_showdb.append(db[i])
+      
+      food_fair_vizualizer(product_showdb)
 
 
 
+def get_price_limits(db):
+
+   '''Returns maxprice and minprice in db_FoodFair in that order'''
+   for i in range(len(db)):
+      cont = 0
+      for j in range(len(db)):
+         if db[i].price > db[j].price:
+            cont += 1
+         elif db[i].price < db[j].price:
+            cont -= 1
+         if cont + 1 == len(db):
+            maxprice = db[i].price
+   for i in range(len(db)):
+      cont = 0
+      for j in range(len(db)):
+         if db[i].price < db[j].price:
+            cont += 1
+         elif db[i].price > db[j].price:
+            cont -= 1
+         if cont + 1 == len(db):
+            minprice = db[i].price
+
+   return maxprice, minprice

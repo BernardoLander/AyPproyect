@@ -1,4 +1,3 @@
-from mod1.utilsm1 import *
 from FoodFair_Methods import *
 
 
