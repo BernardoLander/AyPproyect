@@ -74,6 +74,7 @@ def main():
 
         product_search_client(food_db, client_db, client_index)
         make_bill_food(client_db, client_index)
+        cargar_datos_en_txt("Clientdb.txt", client_db)
 
     else:
         #Statistics
