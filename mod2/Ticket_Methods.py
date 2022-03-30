@@ -23,7 +23,7 @@ def event_select(event_db, client_db, client_index = -1):
     eventop = eventop - 1
     if event_db[eventop].is_selling:
 
-        client_db[client_index].event = event_db[eventop]
+        client_db[client_index].event.append(event_db[eventop])
             
         return eventop
 
@@ -57,7 +57,7 @@ def ticket_buy(client_db, event_db, eventop, client_index):
 
             reserve_spot(spot, event_db[eventop], 1)
             event_db[eventop].vipqty = event_db[eventop].vipqty - 1
-            client_db[client_index].spots.append(spot + "VIP")
+            client_db[client_index].spots.append(spot)
 
             print("Proximo ticket")
 
@@ -163,7 +163,7 @@ def reserve_spot (spot, event, op):
 
             
             
-def make_bill_event(client_db, client_index = -1):
+def make_bill_event(client_db, client_index = -1, event = "event_db[eventop]"):
     '''Makes bill from client obj for events'''
 
     total = 0
@@ -215,7 +215,17 @@ def make_bill_event(client_db, client_index = -1):
         TOTAL: {total}
         ''')
         customer.payed = total
-    
+
+    else:
+        
+        event = unreserve_spots(customer.event[-1], customer)
+        if customer.vip:
+            event.vipqty = event.vipqty + len(customer.spots)
+        else:
+            event.genqty = event.genqty + len(customer.spots)
+        customer.spots.clear()
+        customer.event.pop(-1)
+        
     return
 
 
@@ -228,3 +238,21 @@ def client_search_in_db(client_db):
     print("Su cedula no esta en la base de datos por favor cree un perfil")
     return
 
+def unreserve_spots(event, client):
+    if client.vip:
+        for i in range(len(client.spots)):
+            for j in range(len(event.layoutvip)):
+                if client.spots[i][0] == event.layoutvip[j][0]:
+                    if client.spots[i][1] > event.layoutvip[j][1]:
+                        event.layoutvip[j + 1] = client.spots[i]
+        return event
+    
+    else:
+        for i in range(len(client.spots)):
+            for j in range(len(event.layoutgen)):
+                if client.spots[i][0] == event.layoutgen[j][0]:
+                    if client.spots[i][1] > event.layoutgen[j][1]:
+                        event.layoutgen[j + 1] = client.spots[i]
+        
+        return event
+    

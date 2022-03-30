@@ -3,7 +3,7 @@ class Client():
         self.name = name
         self.dni = dni
         self.age = age
-        self.event = None
+        self.event = []
         self.tickets = 0
         self.spots = []
         self.vip = False
