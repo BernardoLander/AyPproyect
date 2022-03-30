@@ -19,25 +19,31 @@ def product_search_client(food_db, client_db, client_index):
                     product_showdb.append(food_db[i])
                     food_fair_vizualizer(product_showdb)
 
-                    if food_db[i].type == 1:
-                        if yes_no("Desea escoger este producto del inventario?"):
-                            client_db[client_index].food.append(food_db[i])
-                            print("Agregado con exito")
+        if product_showdb[0].type == 1:
+            if yes_no("Desea escoger este producto del inventario?"):
+                client_db[client_index].food.append(product_showdb[0])
+                product_showdb[0].amount -= 1
+                print("Agregado con exito")
+            
+        else:
+            drink_op = verify_str_indb(["Small", "Medium", "Large"],''' Escriba el tamano de la bebida que desea seleccionar:
+            (Este consiente de la capitalizacion de las categorias)
+            Small
+            Medium
+            Large
+            ''')
+
+            for i in range(len(product_showdb)):
+
+                if drink_op == product_showdb[i].size:
+                    client_db[client_index].food.append(product_showdb[i])
+                    product_showdb[i].amount -= 1
+                    print("Agregado Con Exito")
+
+                    for j in range(len(food_db)):
+                        if product_showdb[i] == food_db[j]:
+                            food_db[j] = product_showdb[i]
                             break
-                    else:
-                        drink_op = verify_str_indb(["Small", "Medium", "Large"],''' Indique el tamano de la bebida que desea seleccionar:
-                        Small
-                        Medium
-                        Large
-                        ''')
-
-                        for i in range(len(product_showdb)):
-
-                            if drink_op == product_showdb[i].size:
-                                client_db[client_index].food.append(product_showdb[i])
-                                print("Agregado Con Exito")
-                                break
-                    
                     break
         
         if yes_no("Desea agregar otro producto?"):
@@ -48,9 +54,13 @@ def product_search_client(food_db, client_db, client_index):
 
             return
 
+
+
 def make_bill_food(client_db, client_index = -1):
     '''Makes bill from client obj'''
     total = 0
+    subtotal = 0
+    totaldescuento = "NO APLICA"
     customer = client_db[client_index]
     print(f''' FACTURA
     
@@ -61,19 +71,30 @@ def make_bill_food(client_db, client_index = -1):
     ''')
 
     for i in range(len(customer.food)):
-        
+
         print(f'''
         {customer.food[i].name}
         COSTO SIN IVA: {customer.food[i].price}
         COSTO CON IVA: {customer.food[i].price + customer.food[i].price * 0.16}
         ''')
-        total = total + customer.food[i].price + customer.food[i].price * 0.16
+        subtotal = subtotal + customer.food[i].price + customer.food[i].price * 0.16
+
+    total = subtotal
 
     print(f'''TOTAL A PAGAR: {total}''')
 
     if customer.discountfood:
-        total = total - total * 0.15
-        print (f'''SE APLICA DESCUENTO PARA TOTAL DE: {total}''')
-        customer.payedfood = total
+        totaldescuento = total * 0.15
+        print (f'''DESCUENTO DEL TOTAL DE: {totaldescuento}''')
+        total = total - totaldescuento
+        
     
+    if yes_no("Desea realizar el pago?"):
+        print(f''' *** PAGO REALIZADO EXITOSAMENTE ***
+        SUBTOTAL: {subtotal}
+        DESCUENTO: {totaldescuento}
+        TOTAL: {total}
+        ''')
+        customer.payedfood = total
+        
     return
